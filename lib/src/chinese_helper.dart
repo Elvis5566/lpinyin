@@ -4,8 +4,10 @@ import 'package:lpinyin/src/pinyin_resource.dart';
 class ChineseHelper {
   static const String chineseRegex = "[\\u4e00-\\u9fa5]";
   static final RegExp chineseRegexp = RegExp(chineseRegex);
-  static final Map<String, String> chineseMap =
-      PinyinResource.getChineseResource();
+  static final Map<String, String> zhHantMap =
+      PinyinResource.getZhHantResource();
+  static final Map<String, String> zhHansMap =
+      PinyinResource.getZhHansResource();
 
   /// 判断某个字符是否为汉字
   /// @return 是汉字返回true，否则返回false
@@ -17,7 +19,7 @@ class ChineseHelper {
   /// @param c 需要判断的字符
   /// @return 是繁体字返回true，否则返回false
   static bool isTraditionalChinese(String c) {
-    return chineseMap.containsKey(c);
+    return zhHantMap.containsKey(c);
   }
 
   /// 判断字符串中是否包含中文
@@ -36,7 +38,7 @@ class ChineseHelper {
   /// @param c 需要转换的繁体字
   /// @return 转换后的简体字
   static String convertCharToSimplifiedChinese(String c) {
-    String? simplifiedChinese = chineseMap[c];
+    String? simplifiedChinese = zhHantMap[c];
     return simplifiedChinese ?? c;
   }
 
@@ -44,14 +46,9 @@ class ChineseHelper {
   /// @param c 需要转换的简体字
   /// @return 转换后的繁字体
   static String convertCharToTraditionalChinese(String c) {
-    if (chineseMap.containsValue(c)) {
-      Iterable<MapEntry<String, String>> iterable = chineseMap.entries;
-      for (int i = 0, length = iterable.length; i < length; i++) {
-        MapEntry<String, String> entry = iterable.elementAt(i);
-        if (entry.value == c) {
-          return entry.key;
-        }
-      }
+    String tranditionalChinese = zhHansMap[c];
+    if (tranditionalChinese != null) {
+      return tranditionalChinese;
     }
     return c;
   }
@@ -80,6 +77,6 @@ class ChineseHelper {
 
   /// 添加繁体字字典
   static void addChineseDict(List<String> list) {
-    chineseMap.addAll(PinyinResource.getResource(list));
+    zhHantMap.addAll(PinyinResource.getResource(list));
   }
 }

@@ -9,8 +9,13 @@ class PinyinResource {
     return getResource(pinyinDict);
   }
 
-  /// get Chinese Resource.
-  static Map<String, String> getChineseResource() {
+  // get zh-hans Resource.
+  static Map<String, String> getZhHansResource() {
+    return getResource(chineseDict, reverseKeyValue: true);
+  }
+
+  /// get zh-hant Resource.
+  static Map<String, String> getZhHantResource() {
     return getResource(chineseDict);
   }
 
@@ -20,12 +25,15 @@ class PinyinResource {
   }
 
   /// get Resource.
-  static Map<String, String> getResource(List<String> list) {
+  static Map<String, String> getResource(List<String> list,
+      {bool reverseKeyValue = false}) {
     Map<String, String> map = HashMap();
     List<MapEntry<String, String>> mapEntryList = [];
     for (int i = 0, length = list.length; i < length; i++) {
       List<String> tokens = list[i].trim().split('=');
-      MapEntry<String, String> mapEntry = MapEntry(tokens[0], tokens[1]);
+      MapEntry<String, String> mapEntry = reverseKeyValue
+          ? MapEntry(tokens[1], tokens[0])
+          : MapEntry(tokens[0], tokens[1]);
       mapEntryList.add(mapEntry);
     }
     map.addEntries(mapEntryList);
