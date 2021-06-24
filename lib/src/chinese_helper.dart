@@ -46,11 +46,8 @@ class ChineseHelper {
   /// @param c 需要转换的简体字
   /// @return 转换后的繁字体
   static String convertCharToTraditionalChinese(String c) {
-    String tranditionalChinese = zhHansMap[c];
-    if (tranditionalChinese != null) {
-      return tranditionalChinese;
-    }
-    return c;
+    String? tranditionalChinese = zhHansMap[c];
+    return tranditionalChinese ?? c;
   }
 
   /// 将繁体字转换为简体字
